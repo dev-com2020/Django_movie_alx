@@ -1,1 +1,11 @@
-{{ form }}
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card mb-3">
+<form method="POST">
+    {% csrf_token %}
+{{ form.as_p }}
+    <button type="submit" class="btn btn-primary">ZAPISZ SIĘ</button>
+</form>
+</div>
+{% endblock content %}
