@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form action="">
+        <div class="mb-3">
+            <label class="form-label">Wyszukaj film:</label>
+            <input type="text" name="searchMovie" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary">WYSZUKAJ</button>
+    </form>
+    <div class="row row-cols-1 row-cols-md-4 g-2">
+        {% for movie in movies %}
+        <div class="card">
+            <img class="card-img-top" src="{{ movie.image.url }}">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ movie.title }}</h5>
+                <p class="card-text">{{ movie.description }}</p>
+                {% if movie.url %}
+                <a href="{{ movie.url }}" class="btn btn-primary">Movie Link</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+<hr>
+<div class="container">
+<h2>Dopisz się do naszej listy:</h2>
+<form action="{% url 'signup' %}">
+    <div class="mb-3">
+        <label class="form-label" for="email">Wpisz email:</label>
+        <input type="email" name="email" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary">ZAPISZ SIĘ</button>
+</form>
+    </div>
+{% endblock content %}
