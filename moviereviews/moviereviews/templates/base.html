@@ -9,9 +9,13 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
     <div class="container">
-        <a class="navbar-brand" href="#">FILMY</a>
+        <a class="navbar-brand" href="{% url 'home' %}">
+            {% load static %}
+            <img src="{% static 'logo.jpg' %}"
+            width="30" class="d-inline-block align-text-top"/>
+            FILMY</a>
         <button class="navbar-toggler" type="button"
-                data-bs-toogle="collapse"
+                data-bs-toggle="collapse"
                 data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup"
                 aria-expanded="false" >
@@ -20,7 +24,7 @@
         <div class="collapse navbar-collapse"
              id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="#">News</a>
+                <a class="nav-link" href="{% url 'news' %}">News</a>
                 <a class="nav-link" href="#">Login</a>
                 <a class="nav-link" href="#">Sign Up</a>
             </div>
@@ -32,5 +36,10 @@
    {% block content %}
     {% endblock content %}
     </div>
+<footer class="text-center text-lg-start bg-light text-muted mt-4">
+    <div class="text-center p-4">
+        <p>Copyright by ALX.PL 2024</p>
+    </div>
+</footer>
 </body>
 </html>
