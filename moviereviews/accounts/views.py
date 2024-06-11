@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
@@ -23,3 +23,7 @@ def signupaccount(request):
         else:
             return render(request, 'signupaccount.html', {'form': UserCreateForm,
                                                           'error': 'Hasła nie pasują do siebie'})
+
+def logoutaccount(request):
+    logout(request)
+    return redirect('home')
