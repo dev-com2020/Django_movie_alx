@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <div class="card mb-3">
+                <div class="col-md-3">
+            <img class="img-fluid rounded-start" src="{{ movie.image.url }}">
+                </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ movie.title }}</h5>
+                <p class="card-text">{{ movie.description }}</p>
+                {% if movie.url %}
+                <a href="{{ movie.url }}" class="btn btn-primary">Movie Link</a>
+                {% endif %}
+            </div>
+        </div>
+
+{% endblock content %}
