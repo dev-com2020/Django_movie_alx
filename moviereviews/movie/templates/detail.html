@@ -1,40 +1,56 @@
 {% extends 'base.html' %}
 {% block content %}
 
-        <div class="card mb-3">
-                <div class="col-md-3">
-            <img class="img-fluid rounded-start" src="{{ movie.image.url }}">
-                </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ movie.title }}</h5>
-                <p class="card-text">{{ movie.description }}</p>
-                {% if movie.url %}
-                <a href="{{ movie.url }}" class="btn btn-primary">Movie Link</a>
+<div class="card mb-3">
+    <div class="col-md-3">
+        <img class="img-fluid rounded-start" src="{{ movie.image.url }}">
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ movie.title }}</h5>
+        <p class="card-text">{{ movie.description }}</p>
+        {% if movie.url %}
+        <a href="{{ movie.url }}" class="btn btn-primary">Movie Link</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'createreview' movie.id %}" class="btn btn-primary">Dodaj recenzje</a>
+        {% endif %}
+        <hr>
+        <h3>Recenzje</h3>
+        <ul class="list-group">
+            {% for review in reviews %}
+            <li class="list-group-item pb-3 pt-3">
+                <h5 class="card-title">
+                    Recenzja napisana przez {{ review.user.username }}
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    {{ review.date }}
+                </h6>
+                <p class="card-text">{{ review.text }}</p>
+                {% if user.is_authenticated and user == review.user %}
+                <a class="btn btn-primary me-2" href="{% url 'updatereview' review.id %}">Update</a>
+                <button class="btn btn-danger" onclick="confirmDelete({{ review.id }})">Delete</button>
+                {% comment %}
+                <a class="btn btn-danger" href="{% url 'deletereview' review.id %}">Delete</a>
+                {% endcomment %}
                 {% endif %}
-                {% if user.is_authenticated %}
-                <a href="{% url 'createreview' movie.id %}" class="btn btn-primary">Dodaj recenzje</a>
-                {% endif %}
-                <hr>
-                <h3>Recenzje</h3>
-                <ul class="list-group">
-                    {% for review in reviews %}
-                    <li class="list-group-item pb-3 pt-3">
-                        <h5 class="card-title">
-                            Recenzja napisana przez {{ review.user.username }}
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            {{ review.date }}
-                        </h6>
-                        <p class="card-text">{{ review.text }}</p>
-                        {% if user.is_authenticated and user == review.user %}
-                        <a class="btn btn-primary me-2" href="{% url 'updatereview' review.id %}">Update</a>
-                        <a class="btn btn-danger" href="#">Delete</a>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
-
-            </div>
-        </div>
-
+                <form id="delete-form-{{ review.id }}" method="post" action="{% url 'deletereview' review.id %}" style="display:none;">
+            {% csrf_token %}
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+    function confirmDelete(reviewId) {
+        if (confirm("Czy jesteś pewny skasowania recenzji?")) {
+            var form = document.getElementById('delete-form-' + reviewId);
+            if (form) {
+                form.submit();
+            } else {
+                console.error('Nie znaleziono' + reviewId);
+            }
+        }
+    }
+</script>
 {% endblock content %}
