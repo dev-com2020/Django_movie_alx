@@ -44,3 +44,18 @@ def createreview(request, movie_id):
         except ValueError:
             return render(request, 'createreview.html', {'form': ReviewForm(),
                                                          'error': 'złe dane!'})
+
+
+def updatereview(request, review_id):
+    review = get_object_or_404(Review, pk=review_id, user=request.user)
+    if request.method == 'GET':
+        form = ReviewForm(instance=review)
+        return render(request, 'updatereview.html', {'form': form, 'review': review})
+    else:
+        try:
+            form = ReviewForm(request.POST, instance=review)
+            form.save()
+            return redirect('detail', review.movie.id)
+        except ValueError:
+            return render(request, 'updatereview.html', {'form': form,
+                                                         'error': 'złe dane!', 'review': review})
