@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ReviewForm
@@ -28,7 +29,7 @@ def detail(request, movie_id):
     reviews = Review.objects.filter(movie=movie)
     return render(request, 'detail.html', {'movie': movie, 'reviews': reviews})
 
-
+@login_required
 def createreview(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     if request.method == 'GET':
@@ -45,7 +46,7 @@ def createreview(request, movie_id):
             return render(request, 'createreview.html', {'form': ReviewForm(),
                                                          'error': 'złe dane!'})
 
-
+@login_required
 def updatereview(request, review_id):
     review = get_object_or_404(Review, pk=review_id, user=request.user)
     if request.method == 'GET':
@@ -60,7 +61,7 @@ def updatereview(request, review_id):
             return render(request, 'updatereview.html', {'form': form,
                                                          'error': 'złe dane!', 'review': review})
 
-
+@login_required
 def deletereview(request, review_id):
     review = get_object_or_404(Review, pk=review_id, user=request.user)
     review.delete()

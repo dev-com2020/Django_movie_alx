@@ -137,3 +137,5 @@ MEDIA_URL = '/media/'
 STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+LOGIN_URL = 'loginaccount'
